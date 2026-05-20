@@ -3,19 +3,24 @@ class MessageModel {
   final String conversationId;
   final String senderId;
   final String content;
-  final String messageType;
-  final bool isRead;
   final DateTime createdAt;
+  final DateTime? readAt;
+  final DateTime? deletedAt;
+  final bool deletedForEveryone;
 
   const MessageModel({
     required this.id,
     required this.conversationId,
     required this.senderId,
     required this.content,
-    this.messageType = 'text',
-    this.isRead = false,
     required this.createdAt,
+    this.readAt,
+    this.deletedAt,
+    this.deletedForEveryone = false,
   });
+
+  bool get isDeleted => deletedAt != null || deletedForEveryone;
+  bool get isRead => readAt != null;
 
   factory MessageModel.fromMap(Map<String, dynamic> map) {
     return MessageModel(
@@ -23,9 +28,10 @@ class MessageModel {
       conversationId: map['conversation_id'] as String,
       senderId: map['sender_id'] as String,
       content: map['content'] as String? ?? '',
-      messageType: map['message_type'] as String? ?? 'text',
-      isRead: map['is_read'] as bool? ?? false,
       createdAt: DateTime.parse(map['created_at'] as String),
+      readAt: _parseDate(map['read_at']),
+      deletedAt: _parseDate(map['deleted_at']),
+      deletedForEveryone: map['deleted_for_everyone'] as bool? ?? false,
     );
   }
 
@@ -34,8 +40,14 @@ class MessageModel {
         'conversation_id': conversationId,
         'sender_id': senderId,
         'content': content,
-        'message_type': messageType,
-        'is_read': isRead,
         'created_at': createdAt.toIso8601String(),
+        if (readAt != null) 'read_at': readAt!.toIso8601String(),
+        if (deletedAt != null) 'deleted_at': deletedAt!.toIso8601String(),
+        'deleted_for_everyone': deletedForEveryone,
       };
+
+  static DateTime? _parseDate(Object? value) {
+    if (value is String) return DateTime.tryParse(value);
+    return null;
+  }
 }

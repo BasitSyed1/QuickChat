@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -57,11 +58,40 @@ class _SigninScreenState extends ConsumerState<SigninScreen> {
         }
       },
       error: (e, _) {
+        final msg = e is Exception
+            ? e.toString().replaceFirst('Exception: ', '')
+            : e.toString();
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(e.toString())),
+          SnackBar(content: Text(msg)),
         );
       },
     );
+  }
+
+  Future<void> _onForgotPassword() async {
+    final email = _emailController.text.trim();
+    if (email.isEmpty || !email.contains('@')) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text('Enter your email above to reset your password')),
+      );
+      return;
+    }
+    try {
+      await ref.read(authRepositoryProvider).sendPasswordReset(email);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Password reset link sent to $email')),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      final msg = e is Exception
+          ? e.toString().replaceFirst('Exception: ', '')
+          : e.toString();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(msg)),
+      );
+    }
   }
 
   @override
@@ -69,7 +99,13 @@ class _SigninScreenState extends ConsumerState<SigninScreen> {
     final authState = ref.watch(authProvider);
     final isLoading = authState.isLoading;
 
-    return Scaffold(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.dark.copyWith(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.light,
+      ),
+      child: Scaffold(
       backgroundColor: AppColors.surfaceColor,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -128,7 +164,7 @@ class _SigninScreenState extends ConsumerState<SigninScreen> {
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: _onForgotPassword,
                   child: Text(
                     'Forgot password?',
                     style: GoogleFonts.poppins(
@@ -178,6 +214,7 @@ class _SigninScreenState extends ConsumerState<SigninScreen> {
             ],
           ),
         ),
+      ),
       ),
     );
   }

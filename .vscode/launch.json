@@ -1,0 +1,37 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "QuickChat (debug)",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "args": [
+                "--dart-define=SUPABASE_URL=https://tsnqqrlicrcnfoxmyyyv.supabase.co",
+                "--dart-define=SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRzbnFxcmxpY3JjbmZveG15eXl2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTEyMjM2OTIsImV4cCI6MjA2Njc5OTY5Mn0.POsLjZQYz-f7NwBHXVNlkzB1Zp1sd3j0S8BlB5bsbBg"
+            ]
+        },
+        {
+            "name": "QuickChat (profile)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile",
+            "program": "lib/main.dart",
+            "args": [
+                "--dart-define=SUPABASE_URL=https://tsnqqrlicrcnfoxmyyyv.supabase.co",
+                "--dart-define=SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRzbnFxcmxpY3JjbmZveG15eXl2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTEyMjM2OTIsImV4cCI6MjA2Njc5OTY5Mn0.POsLjZQYz-f7NwBHXVNlkzB1Zp1sd3j0S8BlB5bsbBg"
+            ]
+        },
+        {
+            "name": "QuickChat (release)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release",
+            "program": "lib/main.dart",
+            "args": [
+                "--dart-define=SUPABASE_URL=https://tsnqqrlicrcnfoxmyyyv.supabase.co",
+                "--dart-define=SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRzbnFxcmxpY3JjbmZveG15eXl2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTEyMjM2OTIsImV4cCI6MjA2Njc5OTY5Mn0.POsLjZQYz-f7NwBHXVNlkzB1Zp1sd3j0S8BlB5bsbBg"
+            ]
+        }
+    ]
+}

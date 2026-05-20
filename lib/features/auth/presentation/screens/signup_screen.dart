@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -7,10 +8,10 @@ import '../../../../core/constants/app_strings.dart';
 import '../../../../core/utils/smooth_route.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../../../../core/widgets/custom_textfield.dart';
-import '../../../home/presentation/screens/home_screen.dart';
 import '../../domain/entities/user_model.dart';
 import '../providers/auth_provider.dart';
 import '../widgets/auth_header_visual.dart';
+import 'otp_screen.dart';
 import 'signin_screen.dart';
 
 class SignupScreen extends ConsumerStatefulWidget {
@@ -58,13 +59,21 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
         if (user != null) {
           Navigator.pushReplacement(
             context,
-            SmoothRoute(const HomeScreen()),
+            SmoothRoute(
+              OtpScreen(
+                destination: user.email ?? email,
+                replaceOnSuccess: true,
+              ),
+            ),
           );
         }
       },
       error: (e, _) {
+        final msg = e is Exception
+            ? e.toString().replaceFirst('Exception: ', '')
+            : e.toString();
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(e.toString())),
+          SnackBar(content: Text(msg)),
         );
       },
     );
@@ -75,7 +84,13 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
     final authState = ref.watch(authProvider);
     final isLoading = authState.isLoading;
 
-    return Scaffold(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.dark.copyWith(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.light,
+      ),
+      child: Scaffold(
       backgroundColor: AppColors.surfaceColor,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -178,6 +193,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
             ],
           ),
         ),
+      ),
       ),
     );
   }

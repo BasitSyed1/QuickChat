@@ -4,6 +4,7 @@ class UserModel {
   final String? email;
   final String? password;
   final String? bio;
+  final DateTime? lastSeen;
 
   const UserModel({
     this.id,
@@ -11,15 +12,17 @@ class UserModel {
     this.email,
     this.password,
     this.bio,
+    this.lastSeen,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
+    final lastSeenRaw = json['last_seen'] as String?;
     return UserModel(
       id: json['id'] as String?,
       name: json['name'] as String?,
       email: json['email'] as String?,
-      password: json['password'] as String?,
       bio: json['bio'] as String?,
+      lastSeen: lastSeenRaw == null ? null : DateTime.tryParse(lastSeenRaw),
     );
   }
 
@@ -27,8 +30,8 @@ class UserModel {
         'id': id,
         'name': name,
         'email': email,
-        'password': password,
         'bio': bio,
+        if (lastSeen != null) 'last_seen': lastSeen!.toUtc().toIso8601String(),
       };
 
   UserModel copyWith({
@@ -37,6 +40,7 @@ class UserModel {
     String? email,
     String? password,
     String? bio,
+    DateTime? lastSeen,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -44,6 +48,7 @@ class UserModel {
       email: email ?? this.email,
       password: password ?? this.password,
       bio: bio ?? this.bio,
+      lastSeen: lastSeen ?? this.lastSeen,
     );
   }
 }

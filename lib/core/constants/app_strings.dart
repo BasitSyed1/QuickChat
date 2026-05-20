@@ -25,14 +25,11 @@ class AppStrings {
 
   // Chat
   static const recentChats = 'Recent Chats';
-  static const recentCalls = 'Recent Calls';
   static const noMessagesYet = 'No messages yet';
   static const typeAMessage = 'Type a message';
 
   // Profile
   static const editProfile = 'Edit Profile';
-  static const settings = 'Settings';
-  static const inviteFriends = 'Invite Friends';
   static const logout = 'Logout';
   static const logoutConfirm = 'Are you sure you want to logout?';
   static const cancel = 'Cancel';

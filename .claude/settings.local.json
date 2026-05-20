@@ -4,7 +4,9 @@
       "Bash(command -v flutter)",
       "Bash(flutter --version)",
       "Bash(flutter test *)",
-      "Bash(git init *)"
+      "Bash(git init *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git remote *)"
     ]
   }
 }
